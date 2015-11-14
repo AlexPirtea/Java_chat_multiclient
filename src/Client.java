@@ -31,7 +31,6 @@ public class Client extends Thread {
     public void run(){
 
         new Thread(new Runnable() {
-            @Override
             public void run() {
                 SystemMessageHandler();
             }
@@ -59,15 +58,15 @@ public class Client extends Thread {
 
 
             while(true){
+
                 bufferOutput = new byte[256];
                 System.out.println("Message: ");
-                String messageToSend;// = "test=";
+                String messageToSend;
                 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 messageToSend = br.readLine();
                 bufferOutput = messageToSend.getBytes();
                 outputPacket = new DatagramPacket(bufferOutput, bufferOutput.length, inputPacket.getAddress(), inputPacket.getPort());
                 clientSocket.send(outputPacket);
-
 
             }
         }
@@ -76,9 +75,8 @@ public class Client extends Thread {
 
 
     public static void main(String[] args) {
-        Client c = new Client();
-        c.start();
-
+            Client c = new Client();
+            c.start();
     }
 
     private static void MessageHandler(){
@@ -89,12 +87,12 @@ public class Client extends Thread {
              DatagramPacket inPacket;
              socket.joinGroup(address);
 
-            while (true) {
+            while (true){
                 buffer = new byte[256];
                 inPacket = new DatagramPacket(buffer, buffer.length);
                 socket.receive(inPacket);
-                String answ = new String(inPacket.getData(), 0, inPacket.getLength());
-                System.out.println(answ);
+                String answer = new String(inPacket.getData(), 0, inPacket.getLength());
+                System.out.println(answer);
             }
         }catch(IOException ioe){}
     }
@@ -102,7 +100,6 @@ public class Client extends Thread {
     private static void SystemMessageHandler(){
         try{
             while(true) {
-                Thread.sleep(500);
                 bufferInput = new byte[256];
                 System.out.println("SMH: Waiting message from system");
                 clientSocket.receive(inputPacket);
@@ -110,6 +107,6 @@ public class Client extends Thread {
                 System.out.println(answer);
             }
         }catch(IOException ioe){}
-        catch(InterruptedException ie){System.out.println(ie.getMessage());}
+        //catch(InterruptedException ie){System.out.println(ie.getMessage());}
     }
 }

@@ -27,7 +27,7 @@ public class Connection implements Runnable {
     public void run() {
         try {
             byte[] outputBuffer = new byte[256];
-            outputBuffer = "Conexiune acceptata".getBytes();
+            outputBuffer = "Connection accepted".getBytes();
             outputPacket = new DatagramPacket(outputBuffer,outputBuffer.length,inputPacket.getAddress(),inputPacket.getPort());
             clientSocket.send(outputPacket);
         }catch(IOException ioe ){}
@@ -36,11 +36,11 @@ public class Connection implements Runnable {
                 try {
                     inputBuffer = new byte[256];
                     inputPacket = new DatagramPacket(inputBuffer, inputBuffer.length);
-                    System.out.println("astept mesaj pe conexiune");
+                    //System.out.println("astept mesaj pe conexiune");
                     clientSocket.receive(inputPacket);
-                    String mesajPrimit = new String(inputPacket.getData(), 0, inputPacket.getLength());
-                    System.out.println("am primit mesajul pe conexiune:" + mesajPrimit);
-                    switch(mesajPrimit) {
+                    String receivedMessage = new String(inputPacket.getData(), 0, inputPacket.getLength());
+                    System.out.println("Message received on connection thread:" + receivedMessage);
+                    switch(receivedMessage) {
 
                         case "list":
                             for(int i=0 ; i<Server.clients.size() ; i++){
@@ -52,19 +52,19 @@ public class Connection implements Runnable {
 
                         case "quit":
                             clientSocket.close();
-                            System.out.println(nickname + " a parasit serverul.");
+                            System.out.println(nickname + " left the server.");
                             break;
 
                         default:
                             outputBuffer = new byte[256];
-                            mesajPrimit = nickname + ": "+ mesajPrimit;
-                            outputBuffer = mesajPrimit.getBytes();
+                            receivedMessage = nickname + ": "+ receivedMessage;
+                            outputBuffer = receivedMessage.getBytes();
                             // outputPacket = new DatagramPacket(outputBuffer, outputBuffer.length,inputPacket.getAddress(),inputPacket.getPort());
 
                             InetAddress group = InetAddress.getByName("230.0.0.1");
                             outputPacket = new DatagramPacket(outputBuffer, outputBuffer.length,group,4446);
                             multicastSocket.send(outputPacket);
-                            System.out.println(nickname + ": " + mesajPrimit);
+                            System.out.println(nickname + ": " + receivedMessage);
                             break;
                     }
 

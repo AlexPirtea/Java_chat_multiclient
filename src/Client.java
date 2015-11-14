@@ -24,7 +24,7 @@ public class Client extends Thread {
             inputPacket = new DatagramPacket(bufferInput,bufferInput.length);
         }
         catch(IOException ioe){
-            System.out.println(ioe.getMessage()+"\nNu s-a putut porni clientul");
+            System.out.println(ioe.getMessage()+"\nCan't start the client");
         }
     }
 
@@ -44,13 +44,13 @@ public class Client extends Thread {
         }).start();
 
         try{
-            //  Trimit nickname
+            //  Sending nickname
             bufferOutput = new byte[256];
             bufferOutput = nickname.getBytes();
             outputPacket = new DatagramPacket(bufferOutput, bufferOutput.length, Inet4Address.getLocalHost(), 1234);
             clientSocket.send(outputPacket);
 
-//            //  Primesc validare de la threadul de conexiune
+//            //  Receive confirmation form connection thread
 //            byte[] bufferInput = new byte[256];
 //            inputPacket = new DatagramPacket(bufferInput, bufferInput.length);
 //            clientSocket.receive(inputPacket);
@@ -60,14 +60,11 @@ public class Client extends Thread {
 
             while(true){
                 bufferOutput = new byte[256];
-                System.out.println("Mesaj: ");
-                String mesajDeTrimis = "test=";
-                Thread.sleep(5000);
-//                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//                mesajDeTrimis = br.readLine();
-//                System.out.println(mesajDeTrimis);
-                bufferOutput = mesajDeTrimis.getBytes();
-                System.out.println(inputPacket.getAddress()+ ":" + inputPacket.getPort());      //Aici se blocheaza
+                System.out.println("Message: ");
+                String messageToSend;// = "test=";
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                messageToSend = br.readLine();
+                bufferOutput = messageToSend.getBytes();
                 outputPacket = new DatagramPacket(bufferOutput, bufferOutput.length, inputPacket.getAddress(), inputPacket.getPort());
                 clientSocket.send(outputPacket);
 
@@ -75,7 +72,6 @@ public class Client extends Thread {
             }
         }
         catch(IOException ioe){System.out.println(ioe.getMessage());}
-        catch(InterruptedException ie){}
     }
 
 
@@ -97,8 +93,8 @@ public class Client extends Thread {
                 buffer = new byte[256];
                 inPacket = new DatagramPacket(buffer, buffer.length);
                 socket.receive(inPacket);
-                String rasp = new String(inPacket.getData(), 0, inPacket.getLength());
-                System.out.println(rasp);
+                String answ = new String(inPacket.getData(), 0, inPacket.getLength());
+                System.out.println(answ);
             }
         }catch(IOException ioe){}
     }
@@ -106,12 +102,14 @@ public class Client extends Thread {
     private static void SystemMessageHandler(){
         try{
             while(true) {
+                Thread.sleep(500);
                 bufferInput = new byte[256];
-                System.out.println("astept mesaj de la system");
+                System.out.println("SMH: Waiting message from system");
                 clientSocket.receive(inputPacket);
-                String raspuns = new String(inputPacket.getData(), 0, inputPacket.getLength());
-                System.out.println(raspuns);
+                String answer = new String(inputPacket.getData(), 0, inputPacket.getLength());
+                System.out.println(answer);
             }
         }catch(IOException ioe){}
+        catch(InterruptedException ie){System.out.println(ie.getMessage());}
     }
 }

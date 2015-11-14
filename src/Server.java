@@ -9,8 +9,6 @@ public class Server{
 
     public static DatagramSocket serverSocket;
     public static List<String> clients = new ArrayList<String>();
-    private static int nrClienti = 0;
-
     public static byte[] buffer;
 
     public static void main(String[] args) throws  IOException{
@@ -19,7 +17,7 @@ public class Server{
         serverSocket.setBroadcast(true);
         serverSocket.bind(new InetSocketAddress(1234));
 
-        System.out.println("Serverul a fost pornit");
+        System.out.println("Server is on");
 
         buffer = new byte[256];
 
@@ -28,11 +26,9 @@ public class Server{
                 DatagramPacket packet =  new DatagramPacket(buffer, buffer.length );
                 serverSocket.receive(packet);
                 String clientNickname = new String(packet.getData(), 0, packet.getLength());
-                System.out.println("Clientul cu nickname-ul " + clientNickname + " incearca sa se conecteze" );
+                System.out.println( clientNickname + " trying to connect" );
                 if(validNickname(clientNickname)){
                     clients.add(clientNickname);
-
-
                     DatagramSocket threadSocket = new DatagramSocket();
                     Thread t = new Thread(new Connection(threadSocket, packet, clientNickname));
                     t.start();
@@ -43,10 +39,7 @@ public class Server{
                     DatagramPacket errorPacket = new DatagramPacket(errBuffer,errBuffer.length,packet.getAddress(),packet.getPort());
                     serverSocket.send(errorPacket);
                 }
-
-
         }
-
     }
 
     private static boolean validNickname(String nickname){

@@ -1,16 +1,17 @@
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 public class Server{
 
     public static DatagramSocket serverSocket;
-    public static List<String> clients = new ArrayList<String>();
+    public static List<String> clients = new ArrayList<>();
     public static byte[] buffer;
-
+    public static List<Clients> clientsList = new ArrayList<>();
     public static void main(String[] args) throws  IOException{
         serverSocket = new DatagramSocket(null);
         serverSocket.setReuseAddress(true);
@@ -22,27 +23,46 @@ public class Server{
         buffer = new byte[256];
 
         while(true){
-
-                DatagramPacket packet =  new DatagramPacket(buffer, buffer.length );
+            try {
+                DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
                 serverSocket.receive(packet);
                 String clientNickname = new String(packet.getData(), 0, packet.getLength());
-                System.out.println( clientNickname + " trying to connect" );
-                if(validNickname(clientNickname)){
+                System.out.println(clientNickname + " trying to connect");
+                if (validNickname(clientNickname)) {
                     clients.add(clientNickname);
+                    clientsList.add(new Clients(clientNickname, packet.getAddress(), packet.getPort()));
                     DatagramSocket threadSocket = new DatagramSocket();
                     Thread t = new Thread(new Connection(threadSocket, packet, clientNickname));
                     t.start();
-                }
-                else{
-                    byte[] errBuffer = new byte[256];
-                    errBuffer= "Invalid nickname ".getBytes();
-                    DatagramPacket errorPacket = new DatagramPacket(errBuffer,errBuffer.length,packet.getAddress(),packet.getPort());
+                } else {
+                    byte[] errBuffer;
+                    errBuffer = "Invalid nickname ".getBytes();
+                    DatagramPacket errorPacket = new DatagramPacket(errBuffer, errBuffer.length, packet.getAddress(), packet.getPort());
                     serverSocket.send(errorPacket);
                 }
+            } catch (Exception e) {
+                System.out.println("System error: " + e.getMessage());
+            }
         }
     }
 
     private static boolean validNickname(String nickname){
-        return !clients.contains(nickname);
+        try {
+            return !clientsList.contains(nickname);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
+
+    public static Clients getClient(String nickname) {
+        for (int i = 0; i < clientsList.size(); i++) {
+            if (nickname.equals(clientsList.get(i).nickname)) {
+                return clientsList.get(i);
+            }
+        }
+        return new Clients();
+    }
+
+
 }

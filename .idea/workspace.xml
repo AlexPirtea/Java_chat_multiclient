@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f464822b-be58-474e-8d70-24241864494c" name="Default" comment="[+] nick  &lt;newNIckname&gt; - used to change nickname&#10;[+] whoami - replies with your current nickname&#10;">
+    <list default="true" id="f464822b-be58-474e-8d70-24241864494c" name="Default" comment="[+] nick  &lt;newNIckname&gt; - used to change nickname  &#10;[+] whoami - replies with your current nickname&#10;">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Java_chat_multiclient.iws" />
@@ -88,7 +88,9 @@
         <option value="AlexPirtea &lt;mrshadowz@hotmail.com&gt;" />
       </list>
     </option>
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="FORCE_PUSH_ALLOWED" value="true" />
   </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
@@ -211,6 +213,8 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="694" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FullScreen" value="false" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RunManager" selected="Application.Client">
     <configuration default="false" name="Main" type="Application" factoryName="Application" temporary="true">
@@ -500,7 +504,7 @@
       <workItem from="1447490092120" duration="2905000" />
       <workItem from="1447579671329" duration="2754000" />
       <workItem from="1447919540013" duration="15897000" />
-      <workItem from="1447938100331" duration="1486000" />
+      <workItem from="1447938100331" duration="1846000" />
     </task>
     <task id="LOCAL-00001" summary="[!] solved communication bug&#10;[+] msg function ( msg &lt;nickname&gt; &lt;message&gt;)&#10;">
       <created>1447934220641</created>
@@ -526,11 +530,17 @@
       <option name="project" value="LOCAL" />
       <updated>1447939528140</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="[+] nick  &lt;newNIckname&gt; - used to change nickname  &#10;[+] whoami - replies with your current nickname&#10;">
+      <created>1447939604760</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1447939604760</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45296000" />
+    <option name="totallyTimeSpent" value="45656000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-4" width="1857" height="1085" extended-state="6" />
@@ -606,7 +616,8 @@
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
     <MESSAGE value="[!] solved communication bug&#10;[+] msg function ( msg &lt;nickname&gt; &lt;message&gt;)&#10;" />
     <MESSAGE value="[+] nick  &lt;newNIckname&gt; - used to change nickname&#10;[+] whoami - replies with your current nickname&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="[+] nick  &lt;newNIckname&gt; - used to change nickname&#10;[+] whoami - replies with your current nickname&#10;" />
+    <MESSAGE value="[+] nick  &lt;newNIckname&gt; - used to change nickname  &#10;[+] whoami - replies with your current nickname&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="[+] nick  &lt;newNIckname&gt; - used to change nickname  &#10;[+] whoami - replies with your current nickname&#10;" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -843,7 +854,7 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="1697" column="0" selection-start-line="1697" selection-start-column="0" selection-end-line="1697" selection-end-column="0" />
           <folding>
-            <element signature="e#66495#66496#0" expanded="true" />
+            <element signature="e#66495#66496#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -48,11 +48,23 @@ public class Server{
 
     private static boolean validNickname(String nickname){
         try {
-            return !clientsList.contains(nickname);
+            return !clients.contains(nickname);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+
+    public static boolean changeNickname(String oldNickname, String newNickname) {
+        if (validNickname(newNickname)) {
+            for (int i = 0; i < clients.size(); i++) {
+                if (clients.get(i).equals(oldNickname)) {
+                    clients.set(i, newNickname);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static Clients getClient(String nickname) {

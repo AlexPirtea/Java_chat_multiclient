@@ -57,7 +57,9 @@ public class Connection implements Runnable {
                             clientSocket.disconnect();
                             clientSocket.close();
                             multicastSocket.disconnect();
+                            multicastSocket.leaveGroup(group);
                             multicastSocket.close();
+
                             System.out.println(nickname + " left the server.");
 
                             //  Remove from client list
@@ -86,6 +88,33 @@ public class Connection implements Runnable {
                         }
                         break;
 
+                    case "bcast":
+                        receivedMessage = nickname + "(bcast): " + receivedMessage.substring(6);
+                        outputBuffer = receivedMessage.getBytes();
+                        // outputPacket = new DatagramPacket(outputBuffer, outputBuffer.length,inputPacket.getAddress(),inputPacket.getPort());
+                        group = InetAddress.getByName("230.0.0.1");
+                        outputPacket = new DatagramPacket(outputBuffer, outputBuffer.length, group, 4446);
+                        multicastSocket.send(outputPacket);
+                        System.out.println(receivedMessage);
+                        break;
+
+                    case "nick":
+                        String newNickname = parts[1];
+                        Clients me = Server.getClient(nickname);
+                        me.nickname = newNickname;
+                        if (!Server.changeNickname(nickname, newNickname)) {
+                            outputBuffer = "Nickname already exists".getBytes();
+                            outputPacket = new DatagramPacket(outputBuffer, outputBuffer.length, inputPacket.getAddress(), inputPacket.getPort());
+                            clientSocket.send(outputPacket);
+                            break;
+                        }
+                        nickname = newNickname;
+                        break;
+                    case "whoami":
+                        outputBuffer = nickname.getBytes();
+                        outputPacket = new DatagramPacket(outputBuffer, outputBuffer.length, inputPacket.getAddress(), inputPacket.getPort());
+                        clientSocket.send(outputPacket);
+                        break;
                         default:
                             receivedMessage = nickname + ": "+ receivedMessage;
                             outputBuffer = receivedMessage.getBytes();

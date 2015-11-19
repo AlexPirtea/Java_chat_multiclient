@@ -61,12 +61,11 @@ public class Client extends Thread {
     private static void SystemMessageHandler() {
         try {
             clientSocket.receive(inputPacket);
+            //  Store connection address and port for later use
             serverAddress = inputPacket.getAddress();
             serverPort = inputPacket.getPort();
             while (clientIsOn) {
                 clientSocket.receive(inputPacket);
-                //  Store connection address and port for later use
-
                 String answer = new String(inputPacket.getData(), 0, inputPacket.getLength());
                 if (!answer.equals("")) {
                     System.out.println(answer);
